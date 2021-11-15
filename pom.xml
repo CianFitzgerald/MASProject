@@ -15,16 +15,12 @@
     </properties>
     
     <parent>
-        <groupId>astra</groupId>
+        <groupId>com.astralanguage</groupId>
         <artifactId>astra-eis-base</artifactId>
-        <version>0.6.0</version>
+        <version>1.0.9</version>
     </parent>
 
     <repositories>
-		<repository>
-			<id>astra-repo</id>
-			<url>https://gitlab.com/astra-language/astra-mvn-repo/raw/master</url>
-		</repository>
         <repository>
             <id>eishub-mvn-repo</id>
             <url>https://raw.github.com/eishub/mvn-repo/master</url>
@@ -35,10 +31,10 @@
         <defaultGoal>clean compile dependency:copy-dependencies astra:deploy</defaultGoal>
         <plugins>
             <plugin>
-                <groupId>astra</groupId>
+                <groupId>com.astralanguage</groupId>
                 <artifactId>astra-maven-plugin</artifactId>
+                <version>1.0.8</version>
             </plugin>
         </plugins>
     </build>
 </project>
-

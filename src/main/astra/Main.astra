@@ -5,8 +5,10 @@ agent Main {
     module Debug debug;
 
 	rule +!main(list args) {
+		// start environment
 		ei.launch("vw","dependency/vacuumworld-1.2.0.jar");
 		ei.init([generation("no")]);
+		// links agent to the environment
 		ei.join();
 		ei.startEnv();
 
@@ -14,7 +16,77 @@ agent Main {
 		forall(string ent : E) {
 			C.println("E="+E);
 		}
+
+		// check if any robot is in the corner
+
 		ei.link("Decco");
-		ei.move("forward", 5);
+		!checkCorner();
+		ei.link("Lloyd");
+		!checkCorner();
+		ei.link("Harry");
+		!checkCorner();
+
+		ei.link("Henry");
+		while (~ei.location(0, 0)) {
+			!henry();
+		}
+		
 	}
+
+	rule +$ei.event(location(int x, int y)) {
+		C.println("Now in location " + x + ", " + y);
+
+		if (x == 0 & y == 0) {
+			!decco();
+		}
+		if (x == 0 & y == 2) {
+			C.println("lol");
+		}
+	}
+	rule +!checkCorner() : ei.location(0, 0){
+		ei.move("south");
+	}
+
+	rule +!checkCorner(){
+		C.println("not in corner");
+	}
+
+	rule +!henry() : ei.location(0, 0) {
+		C.println("at home");
+	}
+	rule +!henry() {
+		// !move("west");
+		!step();
+	}
+
+	rule +!step() : ei.location(0, 0) {
+		!decco();
+	}
+
+	rule +!decco() {
+		ei.link("Decco");
+		if (ei.location(0, 2)) {
+			C.println("i weis net");
+		}
+		!step();
+	}
+
+	rule +!step() : ~ei.square("forward", "obstacle") & ~ei.square("forward", "vac") {
+		ei.clean();
+		ei.move("west", 1);
+	}
+
+	rule +!step() : ei.square("forwardLeft", "obstacle") & ei.square("forward", "obstacle") & ei.square("forwardRight", "obstacle") {
+		ei.move("north", 1);
+	}
+
+	rule +!step() : ei.square("forward", "obstacle") & ~ei.square("right", "obstacle") {
+		ei.move("north", 1);
+	}
+
+	rule +!step() :ei.square("forward", "obstacle") & ei.square("right", "obstacle") {
+		ei.move("east", 1);
+		// ei.move("north", 1);
+	}
+
 }

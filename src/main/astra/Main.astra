@@ -3,6 +3,8 @@ agent Main {
     module System S;
 	module EIS ei;
     module Debug debug;
+	module arrayModule myModule;
+	module sortingModule sortModule;
 
 	rule +!main(list args) {
 		// start environment
@@ -17,76 +19,168 @@ agent Main {
 			C.println("E="+E);
 		}
 
-		// check if any robot is in the corner
+		string henDirection = "north";
+		string decDirection = "north";
+		string lloDirection = "north";
+		string harDirection = "north";
 
-		ei.link("Decco");
-		!checkCorner();
-		ei.link("Lloyd");
-		!checkCorner();
-		ei.link("Harry");
-		!checkCorner();
+		string tempDirection = "north";
 
-		ei.link("Henry");
-		while (~ei.location(0, 0)) {
+		//while (~ei.location(0, 0)) {
 			!henry();
-		}
+			//!decco();
+			//!lloyd();
+			//!harry();
+		//}
+		
 		
 	}
 
+
 	rule +$ei.event(location(int x, int y)) {
 		C.println("Now in location " + x + ", " + y);
+		!declare(x, y);
+	}
 
-		if (x == 0 & y == 0) {
-			!decco();
+	rule +!declare(int x, int y) : ei.direction("north") {
+		C.println("north");
+		int northForwardX = x;
+		int northForwardY = y - 1;
+		int northForward = myModule.check(northForwardX, northForwardY);
+		C.println(northForward);
+
+		int northLeftX = x - 1;
+		int northLeftY = y;
+		int northLeft = myModule.check(northLeftX, northLeftY);
+		C.println(northLeft);
+
+		int northRightX = x + 1;
+		int northRightY = y;
+		int northRight = myModule.check(northRightX, northLeftY);
+		C.println(northRight);
+
+		int lowest = sortModule.sort(northForward, northLeft, northRight);
+
+		if (lowest == northForward) {
+			tempDirection = "forward";
 		}
-		if (x == 0 & y == 2) {
-			C.println("lol");
+		if (lowest == northLeft) {
+			tempDirection = "left";
+		}
+		if (lowest == northRight) {
+			tempDirection = "right";
 		}
 	}
-	rule +!checkCorner() : ei.location(0, 0){
-		ei.move("south");
+
+	rule +!declare(int x, int y) : ei.direction("east") {
+		C.println("east");
+		int eastForwardX = x + 1;
+		int eastForwardY = y;
+		int eastForward = myModule.check(eastForwardX, eastForwardY);
+		C.println(eastForward);
+
+		int eastLeftX = x;
+		int eastLeftY = y - 1;
+		int eastLeft = myModule.check(eastLeftX, eastLeftY);
+		C.println(eastLeft);
+
+		int eastRightX = x;
+		int eastRightY = y + 1;
+		int eastRight = myModule.check(eastRightX, eastRightY);
+		C.println(eastRight);
+
+		if (lowest == eastForward) {
+			tempDirection = "forward";
+		}
+		if (lowest == eastLeft) {
+			tempDirection = "left";
+		}
+		if (lowest == eastRight) {
+			tempDirection = "right";
+		}
 	}
 
-	rule +!checkCorner(){
-		C.println("not in corner");
+	rule +!declare(int x, int y) : ei.direction("south") {
+		C.println("south");
+		int southForwardX = x;
+		int southForwardY = y + 1;
+		int southForward = myModule.check(southForwardX, southForwardY);
+		C.println(southForward);
+
+		int southLeftX = x + 1;
+		int southLeftY = y;
+		int southLeft = myModule.check(southLeftX, southLeftY);
+		C.println(southLeft);
+
+		int southRightX = x - 1;
+		int southRightY = y;
+		int southRight = myModule.check(southRightX, southRightY);
+		C.println(southRight);
+
+		if (lowest == southForward) {
+			tempDirection = "forward";
+		}
+		if (lowest == southLeft) {
+			tempDirection = "left";
+		}
+		if (lowest == southRight) {
+			tempDirection = "right";
+		}
 	}
 
-	rule +!henry() : ei.location(0, 0) {
-		C.println("at home");
+	rule +!declare(int x, int y) : ei.direction("west") {
+		C.println("west");
+		int westForwardX = x - 1;
+		int westForwardY = y;
+		int westForward = myModule.check(westForwardX, westForwardY);
+		C.println(westForward);
+
+		int westLeftX = x;
+		int westLeftY = y + 1;
+		int westLeft = myModule.check(westLeftX, westLeftY);
+		C.println(westLeft);
+
+		int westRightX = x;
+		int westRightY = y - 1;
+		int westRight = myModule.check(westRightX, westRightY);
+		C.println(westRight);
+
+		if (lowest == westForward) {
+			tempDirection = "forward";
+		}
+		if (lowest == westLeft) {
+			tempDirection = "left";
+		}
+		if (lowest == westRight) {
+			tempDirection = "right";
+		}
 	}
+
 	rule +!henry() {
-		// !move("west");
-		!step();
-	}
-
-	rule +!step() : ei.location(0, 0) {
-		!decco();
+		harDirection = tempDirection;
+		ei.link("Henry");
+		ei.move(henDirection, 1);
+		S.sleep(500);
 	}
 
 	rule +!decco() {
+		henDirection = tempDirection;
 		ei.link("Decco");
-		if (ei.location(0, 2)) {
-			C.println("i weis net");
-		}
-		!step();
+		ei.move(decDirection, 1);
+		S.sleep(500);
 	}
 
-	rule +!step() : ~ei.square("forward", "obstacle") & ~ei.square("forward", "vac") {
-		ei.clean();
-		ei.move("west", 1);
+	rule +!lloyd() {
+		decDirection = tempDirection;
+		ei.link("Lloyd");
+		ei.move(lloDirection, 1);
+		S.sleep(500);
 	}
-
-	rule +!step() : ei.square("forwardLeft", "obstacle") & ei.square("forward", "obstacle") & ei.square("forwardRight", "obstacle") {
-		ei.move("north", 1);
-	}
-
-	rule +!step() : ei.square("forward", "obstacle") & ~ei.square("right", "obstacle") {
-		ei.move("north", 1);
-	}
-
-	rule +!step() :ei.square("forward", "obstacle") & ei.square("right", "obstacle") {
-		ei.move("east", 1);
-		// ei.move("north", 1);
+	rule +!harry() {
+		lloDirection = tempDirection;
+		ei.link("Harry");
+		ei.move(harDirection, 1);
+		S.sleep(500);
 	}
 
 }

@@ -4,7 +4,7 @@ public class sortingModule extends Module {
 
     @TERM
     public String sort(int forward, int left, int right, int back) {
-        int lowest = forward < left && forward < right && forward < back ? forward : left < forward && left < right && left < back ? left : right < forward && right < forward && right < back ? right : back;
+        int lowest = forward < left && forward < right && forward < back ? forward : left < forward && left < right && left < back ? left : right < forward && right < left && right < back ? right : back;
         if (lowest == forward) {
 			return "forward";
 		}

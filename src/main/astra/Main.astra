@@ -1,10 +1,12 @@
 agent Main {
     module Console C;
     module System S;
+	module Math M;
 	module EIS ei;
     module Debug debug;
 	module arrayModule myModule;
 	module sortingModule sortModule;
+	module directionsModule dirModule;
 
 	rule +!main(list args) {
 		// start environment
@@ -28,7 +30,7 @@ agent Main {
 
 		//while (~ei.location(0, 0)) {
 			!henry();
-			//!decco();
+			!decco();
 			//!lloyd();
 			//!harry();
 		//}
@@ -39,154 +41,179 @@ agent Main {
 
 	rule +$ei.event(location(int x, int y)) {
 		C.println("Now in location " + x + ", " + y);
-		myModule.add(0,0);
-		int t = myModule.check(0,0);
-		C.println(t);
+		int int_x = M.intValue(x + "");
+		int int_y = M.intValue(y + "");
 		!declare(x, y);
 	}
 
 	rule +!declare(int x, int y) : ei.direction("north") {
 		C.println("This here says " + x + " " + y);
 		C.println("north");
-		int northForwardX = x;
-		int northForwardY = y - 1;
+		int int_x = M.intValue(x + "");
+		int int_y = M.intValue(y + "");
+
+		int northForwardX = int_x;
+		int northForwardY = int_y - 1;
 		int northForward = myModule.check(northForwardX, northForwardY);
 		C.println(northForward);
 
-		int northLeftX = x - 1;
-		int northLeftY = y;
+		int northLeftX = int_x - 1;
+		int northLeftY = int_y;
 		int northLeft = myModule.check(northLeftX, northLeftY);
 		C.println(northLeft);
 
-		int northRightX = x + 1;
-		int northRightY = y;
+		int northRightX = int_x + 1;
+		int northRightY = int_y;
 		int northRight = myModule.check(northRightX, northLeftY);
 		C.println(northRight);
 
 		int lowest = sortModule.sort(northForward, northLeft, northRight);
 
-		// if (lowest == northForward) {
-		// 	tempDirection = "forward";
-		// }
-		// if (lowest == northLeft) {
-		// 	tempDirection = "left";
-		// }
-		// if (lowest == northRight) {
-		// 	tempDirection = "right";
-		// }
+		if (lowest == northForward) {
+			dirModule.setTemp("forward");
+		}
+		if (lowest == northLeft) {
+			dirModule.setTemp("left");
+		}
+		if (lowest == northRight) {
+			dirModule.setTemp("right");
+		}
 	}
 
 	rule +!declare(int x, int y) : ei.direction("east") {
 		C.println("This here says " + x + " " + y);
 		C.println("east");
-		int eastForwardX = x + 1;
-		int eastForwardY = y;
+		int int_x = M.intValue(x + "");
+		int int_y = M.intValue(y + "");
+
+		int eastForwardX = int_x + 1;
+		int eastForwardY = int_y;
 		int eastForward = myModule.check(eastForwardX, eastForwardY);
 		C.println(eastForward);
 
-		int eastLeftX = x;
-		int eastLeftY = y - 1;
+		int eastLeftX = int_x;
+		int eastLeftY = int_y - 1;
 		int eastLeft = myModule.check(eastLeftX, eastLeftY);
 		C.println(eastLeft);
 
-		int eastRightX = x;
-		int eastRightY = y + 1;
+		int eastRightX = int_x;
+		int eastRightY = int_y + 1;
 		int eastRight = myModule.check(eastRightX, eastRightY);
 		C.println(eastRight);
 
-		// if (lowest == eastForward) {
-		// 	tempDirection = "forward";
-		// }
-		// if (lowest == eastLeft) {
-		// 	tempDirection = "left";
-		// }
-		// if (lowest == eastRight) {
-		// 	tempDirection = "right";
-		// }
+		int lowest = sortModule.sort(eastForward, eastLeft, eastRight);
+
+		if (lowest == eastForward) {
+			dirModule.setTemp("forward");
+		}
+		if (lowest == eastLeft) {
+			dirModule.setTemp("left");
+		}
+		if (lowest == eastRight) {
+			dirModule.setTemp("right");
+		}
 	}
 
 	rule +!declare(int x, int y) : ei.direction("south") {
 		C.println("This here says " + x + " " + y);
 		C.println("south");
-		int southForwardX = x;
-		int southForwardY = y + 1;
+		int int_x = M.intValue(x + "");
+		int int_y = M.intValue(y + "");
+
+		int southForwardX = int_x;
+		int southForwardY = int_y + 1;
 		int southForward = myModule.check(southForwardX, southForwardY);
 		C.println(southForward);
 
-		int southLeftX = x + 1;
-		int southLeftY = y;
+		int southLeftX = int_x + 1;
+		int southLeftY = int_y;
 		int southLeft = myModule.check(southLeftX, southLeftY);
 		C.println(southLeft);
 
-		int southRightX = x - 1;
-		int southRightY = y;
+		int southRightX = int_x - 1;
+		int southRightY = int_y;
 		int southRight = myModule.check(southRightX, southRightY);
 		C.println(southRight);
 
-		// if (lowest == southForward) {
-		// 	tempDirection = "forward";
-		// }
-		// if (lowest == southLeft) {
-		// 	tempDirection = "left";
-		// }
-		// if (lowest == southRight) {
-		// 	tempDirection = "right";
-		// }
+		int lowest = sortModule.sort(southForward, southLeft, southRight);
+
+		if (lowest == southForward) {
+			dirModule.setTemp("forward");
+		}
+		if (lowest == southLeft) {
+			dirModule.setTemp("left");
+		}
+		if (lowest == southRight) {
+			dirModule.setTemp("right");
+		}
 	}
 
 	rule +!declare(int x, int y) : ei.direction("west") {
 		C.println("west");
 		C.println("This here says " + x + " " + y);
-		int westForwardX = x - 1;
-		int westForwardY = y;
+		int int_x = M.intValue(x + "");
+		int int_y = M.intValue(y + "");
+
+		int westForwardX = int_x - 1;
+		int westForwardY = int_y;
 		int westForward = myModule.check(westForwardX, westForwardY);
 		C.println(westForward);
 
-		int westLeftX = x;
-		int westLeftY = y + 1;
+		int westLeftX = int_x;
+		int westLeftY = int_y + 1;
 		int westLeft = myModule.check(westLeftX, westLeftY);
 		C.println(westLeft);
 
-		int westRightX = x;
-		int westRightY = y - 1;
+		int westRightX = int_x;
+		int westRightY = int_y - 1;
 		int westRight = myModule.check(westRightX, westRightY);
 		C.println(westRight);
 
-		// if (lowest == westForward) {
-		// 	tempDirection = "forward";
-		// }
-		// if (lowest == westLeft) {
-		// 	tempDirection = "left";
-		// }
-		// if (lowest == westRight) {
-		// 	tempDirection = "right";
-		// }
+		int lowest = sortModule.sort(westForward, westLeft, westRight);
+
+		if (lowest == westForward) {
+			dirModule.setTemp("forward");
+		}
+		if (lowest == westLeft) {
+			dirModule.setTemp("left");
+		}
+		if (lowest == westRight) {
+			dirModule.setTemp("right");
+		}
 	}
 
 	rule +!henry() {
-		//harDirection = tempDirection;
+		string var = dirModule.getTemp();
+		dirModule.setHarry();
+		string dir = dirModule.getHenry();
 		ei.link("Henry");
-		ei.move("forward", 1);
+		ei.move(dir, 1);
 		S.sleep(500);
 	}
 
 	rule +!decco() {
-		//henDirection = tempDirection;
+		string var = dirModule.getTemp();
+		dirModule.setHenry();
+		string dir = dirModule.getDecco();
 		ei.link("Decco");
-		//ei.move(decDirection, 1);
+		ei.move(dir, 1);
 		S.sleep(500);
 	}
 
 	rule +!lloyd() {
-		//decDirection = tempDirection;
+		string var = dirModule.getTemp();
+		dirModule.setDecco();
+		string dir = dirModule.getLloyd();
 		ei.link("Lloyd");
-		//ei.move(lloDirection, 1);
+		ei.move(dir, 1);
 		S.sleep(500);
 	}
 	rule +!harry() {
-		//lloDirection = tempDirection;
+		string var = dirModule.getTemp();
+		dirModule.setLloyd();
+		string dir = dirModule.getHarry();
 		ei.link("Harry");
-		//ei.move(harDirection, 1);
+		ei.move(dir, 1);
 		S.sleep(500);
 	}
 

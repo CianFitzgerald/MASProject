@@ -14,10 +14,10 @@ public class sortingModule extends Module {
 		else if (lowest == right) {
 			return "right";
 		}
-		else if (lowest == back) {
+		else {
 			return "back";
 		}
-        return "forward";
+
     }
 }
 

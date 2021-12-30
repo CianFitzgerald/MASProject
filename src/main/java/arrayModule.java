@@ -6,8 +6,13 @@ public class arrayModule extends Module {
 
     @TERM
     public int check(int xcord, int ycord) {
-        int x = array[xcord][ycord];
-        return x;
+        try {
+            int x = array[xcord][ycord];
+            return x;
+        } catch (Exception e) {
+            int x = 1000;
+            return x;
+        }
     }
 
     @ACTION

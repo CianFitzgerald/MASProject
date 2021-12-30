@@ -21,21 +21,15 @@ agent Main {
 			C.println("E="+E);
 		}
 
-		// string henDirection = "north";
-		// string decDirection = "north";
-		// string lloDirection = "north";
-		// string harDirection = "north";
+		ei.link("Harry");
 
-		// string tempDirection = "north";
 
-		//while (~ei.location(0, 0)) {
+		while (~ei.location(0, 0)) {
 			!henry();
 			!decco();
-			//!lloyd();
-			//!harry();
-		//}
-		
-		
+			!lloyd();
+			!harry();
+		}
 	}
 
 
@@ -43,6 +37,7 @@ agent Main {
 		C.println("Now in location " + x + ", " + y);
 		int int_x = M.intValue(x + "");
 		int int_y = M.intValue(y + "");
+		myModule.add(int_x, int_y);
 		!declare(x, y);
 	}
 

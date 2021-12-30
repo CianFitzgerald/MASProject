@@ -10,9 +10,9 @@ public class arrayModule extends Module {
         return x;
     }
 
-    @TERM
-    public int [][] add(int xcord, int ycord){
+    @ACTION
+    public boolean add(int xcord, int ycord){
         array[xcord][ycord] += 1;
-        return array;
+        return true;
     }
 }

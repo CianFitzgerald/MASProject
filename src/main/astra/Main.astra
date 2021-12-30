@@ -19,12 +19,12 @@ agent Main {
 			C.println("E="+E);
 		}
 
-		string henDirection = "north";
-		string decDirection = "north";
-		string lloDirection = "north";
-		string harDirection = "north";
+		// string henDirection = "north";
+		// string decDirection = "north";
+		// string lloDirection = "north";
+		// string harDirection = "north";
 
-		string tempDirection = "north";
+		// string tempDirection = "north";
 
 		//while (~ei.location(0, 0)) {
 			!henry();
@@ -39,10 +39,14 @@ agent Main {
 
 	rule +$ei.event(location(int x, int y)) {
 		C.println("Now in location " + x + ", " + y);
+		myModule.add(0,0);
+		int t = myModule.check(0,0);
+		C.println(t);
 		!declare(x, y);
 	}
 
 	rule +!declare(int x, int y) : ei.direction("north") {
+		C.println("This here says " + x + " " + y);
 		C.println("north");
 		int northForwardX = x;
 		int northForwardY = y - 1;
@@ -61,18 +65,19 @@ agent Main {
 
 		int lowest = sortModule.sort(northForward, northLeft, northRight);
 
-		if (lowest == northForward) {
-			tempDirection = "forward";
-		}
-		if (lowest == northLeft) {
-			tempDirection = "left";
-		}
-		if (lowest == northRight) {
-			tempDirection = "right";
-		}
+		// if (lowest == northForward) {
+		// 	tempDirection = "forward";
+		// }
+		// if (lowest == northLeft) {
+		// 	tempDirection = "left";
+		// }
+		// if (lowest == northRight) {
+		// 	tempDirection = "right";
+		// }
 	}
 
 	rule +!declare(int x, int y) : ei.direction("east") {
+		C.println("This here says " + x + " " + y);
 		C.println("east");
 		int eastForwardX = x + 1;
 		int eastForwardY = y;
@@ -89,18 +94,19 @@ agent Main {
 		int eastRight = myModule.check(eastRightX, eastRightY);
 		C.println(eastRight);
 
-		if (lowest == eastForward) {
-			tempDirection = "forward";
-		}
-		if (lowest == eastLeft) {
-			tempDirection = "left";
-		}
-		if (lowest == eastRight) {
-			tempDirection = "right";
-		}
+		// if (lowest == eastForward) {
+		// 	tempDirection = "forward";
+		// }
+		// if (lowest == eastLeft) {
+		// 	tempDirection = "left";
+		// }
+		// if (lowest == eastRight) {
+		// 	tempDirection = "right";
+		// }
 	}
 
 	rule +!declare(int x, int y) : ei.direction("south") {
+		C.println("This here says " + x + " " + y);
 		C.println("south");
 		int southForwardX = x;
 		int southForwardY = y + 1;
@@ -117,19 +123,20 @@ agent Main {
 		int southRight = myModule.check(southRightX, southRightY);
 		C.println(southRight);
 
-		if (lowest == southForward) {
-			tempDirection = "forward";
-		}
-		if (lowest == southLeft) {
-			tempDirection = "left";
-		}
-		if (lowest == southRight) {
-			tempDirection = "right";
-		}
+		// if (lowest == southForward) {
+		// 	tempDirection = "forward";
+		// }
+		// if (lowest == southLeft) {
+		// 	tempDirection = "left";
+		// }
+		// if (lowest == southRight) {
+		// 	tempDirection = "right";
+		// }
 	}
 
 	rule +!declare(int x, int y) : ei.direction("west") {
 		C.println("west");
+		C.println("This here says " + x + " " + y);
 		int westForwardX = x - 1;
 		int westForwardY = y;
 		int westForward = myModule.check(westForwardX, westForwardY);
@@ -145,41 +152,41 @@ agent Main {
 		int westRight = myModule.check(westRightX, westRightY);
 		C.println(westRight);
 
-		if (lowest == westForward) {
-			tempDirection = "forward";
-		}
-		if (lowest == westLeft) {
-			tempDirection = "left";
-		}
-		if (lowest == westRight) {
-			tempDirection = "right";
-		}
+		// if (lowest == westForward) {
+		// 	tempDirection = "forward";
+		// }
+		// if (lowest == westLeft) {
+		// 	tempDirection = "left";
+		// }
+		// if (lowest == westRight) {
+		// 	tempDirection = "right";
+		// }
 	}
 
 	rule +!henry() {
-		harDirection = tempDirection;
+		//harDirection = tempDirection;
 		ei.link("Henry");
-		ei.move(henDirection, 1);
+		ei.move("forward", 1);
 		S.sleep(500);
 	}
 
 	rule +!decco() {
-		henDirection = tempDirection;
+		//henDirection = tempDirection;
 		ei.link("Decco");
-		ei.move(decDirection, 1);
+		//ei.move(decDirection, 1);
 		S.sleep(500);
 	}
 
 	rule +!lloyd() {
-		decDirection = tempDirection;
+		//decDirection = tempDirection;
 		ei.link("Lloyd");
-		ei.move(lloDirection, 1);
+		//ei.move(lloDirection, 1);
 		S.sleep(500);
 	}
 	rule +!harry() {
-		lloDirection = tempDirection;
+		//lloDirection = tempDirection;
 		ei.link("Harry");
-		ei.move(harDirection, 1);
+		//ei.move(harDirection, 1);
 		S.sleep(500);
 	}
 

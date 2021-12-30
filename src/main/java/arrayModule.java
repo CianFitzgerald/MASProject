@@ -1,3 +1,5 @@
+
+
 import astra.core.Module;
 
 public class arrayModule extends Module {
@@ -12,7 +14,7 @@ public class arrayModule extends Module {
         } catch (Exception e) {
             int x = 1000;
             return x;
-        }
+        } 
     }
 
     @ACTION

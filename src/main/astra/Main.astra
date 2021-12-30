@@ -22,7 +22,7 @@ agent Main {
 			C.println("E="+E);
 		}
 
-		while (dustModule.getCount() < 32) {
+		while (dustModule.getCount() <= 32) {
 			C.println("Dust Count " + dustModule.getCount());
 			!henry();
 			!decco();
@@ -44,7 +44,7 @@ agent Main {
 	}
 
 	rule +!declare(int x, int y) : ei.direction("north") {
-		C.println("north");
+
 		int int_x = M.intValue(x + "");
 		int int_y = M.intValue(y + "");
 
@@ -60,21 +60,28 @@ agent Main {
 		int northRightY = int_y;
 		int northRight = myModule.check(northRightX, northLeftY);
 
-		int lowest = sortModule.sort(northForward, northLeft, northRight);
+		int northBackX = int_x;
+		int northBackY = int_y - 1;
+		int northBack = myModule.check(northBackX, northBackY);
+
+		int lowest = sortModule.sort(northForward, northLeft, northRight, northBack);
 
 		if (lowest == northForward) {
 			dirModule.setTemp("forward");
 		}
-		if (lowest == northLeft) {
+		else if (lowest == northLeft) {
 			dirModule.setTemp("left");
 		}
-		if (lowest == northRight) {
+		else if (lowest == northRight) {
 			dirModule.setTemp("right");
+		}
+		else if (lowest == northBack) {
+			dirModule.setTemp("back");
 		}
 	}
 
 	rule +!declare(int x, int y) : ei.direction("east") {
-		C.println("east");
+
 		int int_x = M.intValue(x + "");
 		int int_y = M.intValue(y + "");
 
@@ -90,7 +97,11 @@ agent Main {
 		int eastRightY = int_y + 1;
 		int eastRight = myModule.check(eastRightX, eastRightY);
 
-		int lowest = sortModule.sort(eastForward, eastLeft, eastRight);
+		int eastBackX = int_x - 1;
+		int eastBackY = int_y;
+		int eastBack = myModule.check(eastBackX, eastBackY);
+
+		int lowest = sortModule.sort(eastForward, eastLeft, eastRight, eastBack);
 
 		if (lowest == eastForward) {
 			dirModule.setTemp("forward");
@@ -101,10 +112,12 @@ agent Main {
 		if (lowest == eastRight) {
 			dirModule.setTemp("right");
 		}
+		if (lowest == eastBack) {
+			dirModule.setTemp("back");
+		}
 	}
 
 	rule +!declare(int x, int y) : ei.direction("south") {
-		C.println("south");
 		int int_x = M.intValue(x + "");
 		int int_y = M.intValue(y + "");
 
@@ -120,7 +133,11 @@ agent Main {
 		int southRightY = int_y;
 		int southRight = myModule.check(southRightX, southRightY);
 
-		int lowest = sortModule.sort(southForward, southLeft, southRight);
+		int southBackX = int_x;
+		int southBackY = int_y - 1;
+		int southBack = myModule.check(southBackX, southBackY);
+
+		int lowest = sortModule.sort(southForward, southLeft, southRight, southBack);
 
 		if (lowest == southForward) {
 			dirModule.setTemp("forward");
@@ -131,10 +148,13 @@ agent Main {
 		if (lowest == southRight) {
 			dirModule.setTemp("right");
 		}
+		if (lowest == southBack) {
+			dirModule.setTemp("back");
+		}
+
 	}
 
 	rule +!declare(int x, int y) : ei.direction("west") {
-		C.println("west");
 		int int_x = M.intValue(x + "");
 		int int_y = M.intValue(y + "");
 
@@ -150,7 +170,11 @@ agent Main {
 		int westRightY = int_y - 1;
 		int westRight = myModule.check(westRightX, westRightY);
 
-		int lowest = sortModule.sort(westForward, westLeft, westRight);
+		int westBackX = int_x - 1;
+		int westBackY = int_y;
+		int westBack = myModule.check(westBackX, westBackY);
+
+		int lowest = sortModule.sort(westForward, westLeft, westRight, westBack);
 
 		if (lowest == westForward) {
 			dirModule.setTemp("forward");
@@ -160,6 +184,9 @@ agent Main {
 		}
 		if (lowest == westRight) {
 			dirModule.setTemp("right");
+		}
+		if (lowest == westBack) {
+			dirModule.setTemp("back");
 		}
 	}
 
@@ -197,5 +224,6 @@ agent Main {
 		ei.move(dir, 1);
 		S.sleep(500);
 	}
+
 
 }

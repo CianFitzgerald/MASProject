@@ -61,7 +61,7 @@ agent Main {
 		int northRight = myModule.check(northRightX, northLeftY);
 
 		int northBackX = int_x;
-		int northBackY = int_y - 1;
+		int northBackY = int_y + 1;
 		int northBack = myModule.check(northBackX, northBackY);
 
 		string lowest = sortModule.sort(northForward, northLeft, northRight, northBack);
@@ -137,7 +137,7 @@ agent Main {
 		int westRightY = int_y - 1;
 		int westRight = myModule.check(westRightX, westRightY);
 
-		int westBackX = int_x - 1;
+		int westBackX = int_x + 1;
 		int westBackY = int_y;
 		int westBack = myModule.check(westBackX, westBackY);
 

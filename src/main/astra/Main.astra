@@ -64,20 +64,9 @@ agent Main {
 		int northBackY = int_y - 1;
 		int northBack = myModule.check(northBackX, northBackY);
 
-		int lowest = sortModule.sort(northForward, northLeft, northRight, northBack);
+		string lowest = sortModule.sort(northForward, northLeft, northRight, northBack);
+		dirModule.setTemp(lowest);
 
-		if (lowest == northForward) {
-			dirModule.setTemp("forward");
-		}
-		else if (lowest == northLeft) {
-			dirModule.setTemp("left");
-		}
-		else if (lowest == northRight) {
-			dirModule.setTemp("right");
-		}
-		else if (lowest == northBack) {
-			dirModule.setTemp("back");
-		}
 	}
 
 	rule +!declare(int x, int y) : ei.direction("east") {
@@ -101,20 +90,9 @@ agent Main {
 		int eastBackY = int_y;
 		int eastBack = myModule.check(eastBackX, eastBackY);
 
-		int lowest = sortModule.sort(eastForward, eastLeft, eastRight, eastBack);
+		string lowest = sortModule.sort(eastForward, eastLeft, eastRight, eastBack);
 
-		if (lowest == eastForward) {
-			dirModule.setTemp("forward");
-		}
-		if (lowest == eastLeft) {
-			dirModule.setTemp("left");
-		}
-		if (lowest == eastRight) {
-			dirModule.setTemp("right");
-		}
-		if (lowest == eastBack) {
-			dirModule.setTemp("back");
-		}
+		dirModule.setTemp(lowest);
 	}
 
 	rule +!declare(int x, int y) : ei.direction("south") {
@@ -137,20 +115,9 @@ agent Main {
 		int southBackY = int_y - 1;
 		int southBack = myModule.check(southBackX, southBackY);
 
-		int lowest = sortModule.sort(southForward, southLeft, southRight, southBack);
+		string lowest = sortModule.sort(southForward, southLeft, southRight, southBack);
 
-		if (lowest == southForward) {
-			dirModule.setTemp("forward");
-		}
-		if (lowest == southLeft) {
-			dirModule.setTemp("left");
-		}
-		if (lowest == southRight) {
-			dirModule.setTemp("right");
-		}
-		if (lowest == southBack) {
-			dirModule.setTemp("back");
-		}
+		dirModule.setTemp(lowest);
 
 	}
 
@@ -174,20 +141,9 @@ agent Main {
 		int westBackY = int_y;
 		int westBack = myModule.check(westBackX, westBackY);
 
-		int lowest = sortModule.sort(westForward, westLeft, westRight, westBack);
+		string lowest = sortModule.sort(westForward, westLeft, westRight, westBack);
 
-		if (lowest == westForward) {
-			dirModule.setTemp("forward");
-		}
-		if (lowest == westLeft) {
-			dirModule.setTemp("left");
-		}
-		if (lowest == westRight) {
-			dirModule.setTemp("right");
-		}
-		if (lowest == westBack) {
-			dirModule.setTemp("back");
-		}
+		dirModule.setTemp(lowest);
 	}
 
 	rule +!henry() {

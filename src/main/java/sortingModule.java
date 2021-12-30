@@ -3,11 +3,21 @@ import astra.core.Module;
 public class sortingModule extends Module {
 
     @TERM
-    public int sort(int n1, int n2, int n3, int n4) {
-        int lowest = n1 < n2 && n1 < n3 && n1 < n4 ? n1 : n2 < n1 && n2 < n3 && n2 < n4 ? n2 : n3 < n1 && n3 < n1 && n3 < n4 ? n3 : n4;
-        
-        return lowest;
+    public String sort(int forward, int left, int right, int back) {
+        int lowest = forward < left && forward < right && forward < back ? forward : left < forward && left < right && left < back ? left : right < forward && right < forward && right < back ? right : back;
+        if (lowest == forward) {
+			return "forward";
+		}
+		else if (lowest == left) {
+			return "left";
+		}
+		else if (lowest == right) {
+			return "right";
+		}
+		else if (lowest == back) {
+			return "back";
+		}
+        return "forward";
     }
-
 }
 

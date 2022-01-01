@@ -4,7 +4,8 @@ public class sortingModule extends Module {
 
     @TERM
     public String sort(int forward, int left, int right, int back) {
-        int lowest = forward < left && forward < right && forward < back ? forward : left < forward && left < right && left < back ? left : right < forward && right < left && right < back ? right : back;
+        int lowest = Math.min(Math.min(forward, left), Math.min(right, back));
+
         if (lowest == forward) {
 			return "forward";
 		}
@@ -14,9 +15,10 @@ public class sortingModule extends Module {
 		else if (lowest == right) {
 			return "right";
 		}
-		else {
+		else  {
 			return "back";
 		}
+
 
     }
 }

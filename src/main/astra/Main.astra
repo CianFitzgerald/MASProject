@@ -25,13 +25,18 @@ agent Main {
 		while (dustModule.getCount() <= 32) {
 			C.println("Dust Count " + dustModule.getCount());
 			!henry();
+
 			!decco();
+
 			!lloyd();
+
 			!harry();
+
 		}
 	}
 
-	rule +$ei.event(location(int x, int y)) {
+	rule +$ei.event(location(int x, int y)) : ei.direction(string dir) {
+		
 		C.println("Now in location " + x + ", " + y);
 		int int_x = M.intValue(x + "");
 		int int_y = M.intValue(y + "");
@@ -44,7 +49,7 @@ agent Main {
 	}
 
 	rule +!declare(int x, int y) : ei.direction("north") {
-
+		C.println("facing north:");
 		int int_x = M.intValue(x + "");
 		int int_y = M.intValue(y + "");
 
@@ -64,13 +69,26 @@ agent Main {
 		int northBackY = int_y + 1;
 		int northBack = myModule.check(northBackX, northBackY);
 
-		string lowest = sortModule.sort(northForward, northLeft, northRight, northBack);
-		dirModule.setTemp(lowest);
+		int lowest = M.min(M.min(northForward, northLeft), M.min(northRight, northBack));
+
+		C.println("setting temp now");
+		if (lowest == northForward) {
+			dirModule.setTemp("forward");
+		}
+		if (lowest == northLeft) {
+			dirModule.setTemp("left");
+		}
+		if (lowest == northRight) {
+			dirModule.setTemp("right");
+		}
+		if (lowest == northBack) {
+			dirModule.setTemp("back");
+		}
 
 	}
 
 	rule +!declare(int x, int y) : ei.direction("east") {
-
+		C.println("facing east:");
 		int int_x = M.intValue(x + "");
 		int int_y = M.intValue(y + "");
 
@@ -90,12 +108,26 @@ agent Main {
 		int eastBackY = int_y;
 		int eastBack = myModule.check(eastBackX, eastBackY);
 
-		string lowest = sortModule.sort(eastForward, eastLeft, eastRight, eastBack);
+		int lowest = M.min(M.min(eastForward, eastLeft), M.min(eastRight, eastBack));
+		C.println("facing east: setting temp now");
+		if (lowest == eastForward) {
+			dirModule.setTemp("forward");
+		}
+		if (lowest == eastLeft) {
+			dirModule.setTemp("left");
+		}
+		if (lowest == eastRight) {
+			dirModule.setTemp("right");
+		}
+		if (lowest == eastBack) {
+			dirModule.setTemp("back");
+		}
 
-		dirModule.setTemp(lowest);
+
 	}
 
 	rule +!declare(int x, int y) : ei.direction("south") {
+		C.println("facing south:");
 		int int_x = M.intValue(x + "");
 		int int_y = M.intValue(y + "");
 
@@ -115,13 +147,27 @@ agent Main {
 		int southBackY = int_y - 1;
 		int southBack = myModule.check(southBackX, southBackY);
 
-		string lowest = sortModule.sort(southForward, southLeft, southRight, southBack);
+		int lowest = M.min(M.min(southForward, southLeft), M.min(southRight, southBack));
+		C.println("facing south: setting temp now");
+		if (lowest == southForward) {
+			dirModule.setTemp("forward");
+		}
+		if (lowest == southLeft) {
+			dirModule.setTemp("left");
+		}
+		if (lowest == southRight) {
+			dirModule.setTemp("right");
+		}
+		if (lowest == southBack) {
+			dirModule.setTemp("back");
+		}
 
-		dirModule.setTemp(lowest);
+
 
 	}
 
 	rule +!declare(int x, int y) : ei.direction("west") {
+		C.println("facing west:");
 		int int_x = M.intValue(x + "");
 		int int_y = M.intValue(y + "");
 
@@ -141,44 +187,57 @@ agent Main {
 		int westBackY = int_y;
 		int westBack = myModule.check(westBackX, westBackY);
 
-		string lowest = sortModule.sort(westForward, westLeft, westRight, westBack);
+		int lowest = M.min(M.min(westForward, westLeft), M.min(westRight, westBack));
+		C.println("facing west: setting temp now");
+		if (lowest == westForward) {
+			dirModule.setTemp("forward");
+		}
+		if (lowest == westLeft) {
+			dirModule.setTemp("left");
+		}
+		if (lowest == westRight) {
+			dirModule.setTemp("right");
+		}
+		if (lowest == westBack) {
+			dirModule.setTemp("back");
+		}
 
-		dirModule.setTemp(lowest);
+
 	}
 
 	rule +!henry() {
-		string var = dirModule.getTemp();
 		dirModule.setHarry();
 		string dir = dirModule.getHenry();
 		ei.link("Henry");
 		ei.move(dir, 1);
-		S.sleep(500);
+		S.sleep(3000);
 	}
 
 	rule +!decco() {
-		string var = dirModule.getTemp();
 		dirModule.setHenry();
 		string dir = dirModule.getDecco();
 		ei.link("Decco");
 		ei.move(dir, 1);
-		S.sleep(500);
+
+		S.sleep(3000);		
+
 	}
 
 	rule +!lloyd() {
-		string var = dirModule.getTemp();
 		dirModule.setDecco();
 		string dir = dirModule.getLloyd();
 		ei.link("Lloyd");
 		ei.move(dir, 1);
-		S.sleep(500);
+		S.sleep(3000);		
+
 	}
 	rule +!harry() {
-		string var = dirModule.getTemp();
 		dirModule.setLloyd();
 		string dir = dirModule.getHarry();
 		ei.link("Harry");
 		ei.move(dir, 1);
-		S.sleep(500);
+		
+		S.sleep(3000);
 	}
 
 

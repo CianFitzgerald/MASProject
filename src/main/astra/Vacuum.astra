@@ -15,7 +15,9 @@ agent Vacuum {
         ei.link(name); 
         string botname = S.name(); 
         C.println("My name is:" + botname); 
-        !move();
+        while (dustModule.getCount() <= 32) {
+            !move();
+        }
     }
 
 	rule +!move() {

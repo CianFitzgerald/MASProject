@@ -12,7 +12,9 @@ agent Vacuum {
     rule +!main([string name]) {
         ei.launch("vw","dependency/vacuumworld-1.2.0.jar");
         ei.join();
-        ei.link(name);   
+        ei.link(name); 
+        string botname = S.name(); 
+        C.println("My name is:" + botname); 
         !move();
     }
 
@@ -25,6 +27,7 @@ agent Vacuum {
 
 	rule +$ei.event(location(int x, int y)) : ei.direction(string dir){
 		string botname = S.name();
+        
 		C.println("Now in location " + x + ", " + y);
 		int int_x = M.intValue(x + "");
 		int int_y = M.intValue(y + "");

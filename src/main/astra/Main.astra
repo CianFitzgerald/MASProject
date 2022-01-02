@@ -18,13 +18,13 @@ agent Main {
 		ei.init([generation("no")]);
 		ei.startEnv();
 
-		while (dustModule.getCount() <= 32) {
-            C.println("Dust Count " + dustModule.getCount());
-			S.setMainGoal("Henry", ["Henry"]);
-			S.setMainGoal("Decco", ["Decco"]);
-			S.setMainGoal("Lloyd", ["Lloyd"]);
-			S.setMainGoal("Harry", ["Harry"]);
-		}
+
+		C.println("Dust Count " + dustModule.getCount());
+		S.setMainGoal("Henry", ["Henry"]);
+		S.setMainGoal("Decco", ["Decco"]);
+		S.setMainGoal("Lloyd", ["Lloyd"]);
+		S.setMainGoal("Harry", ["Harry"]);
+
 
 	}
 

@@ -29,8 +29,8 @@ agent Vacuum {
 
 	rule +$ei.event(location(int x, int y)) : ei.direction(string dir){
 		string botname = S.name();
-        
 		C.println("Now in location " + x + ", " + y);
+        
 		int int_x = M.intValue(x + "");
 		int int_y = M.intValue(y + "");
 		myModule.add(int_x, int_y);

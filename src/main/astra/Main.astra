@@ -4,241 +4,30 @@ agent Main {
 	module Math M;
 	module EIS ei;
     module Debug debug;
-	module arrayModule myModule;
-	module sortingModule sortModule;
-	module directionsModule dirModule;
 	module dustCountModule dustModule;
 
+
+
 	rule +!main(list args) {
-		// start environment
+		S.createAgent("Henry", "Vacuum");
+		S.createAgent("Decco", "Vacuum");
+		S.createAgent("Lloyd", "Vacuum"); 
+		S.createAgent("Harry", "Vacuum"); 
+
 		ei.launch("vw","dependency/vacuumworld-1.2.0.jar");
 		ei.init([generation("no")]);
-		// links agent to the environment
-		ei.join();
 		ei.startEnv();
 
-		list E = ei.freeEntities();
-		forall(string ent : E) {
-			C.println("E="+E);
-		}
-
 		while (dustModule.getCount() <= 32) {
-			C.println("Dust Count " + dustModule.getCount());
-			!henry();
-
-			!decco();
-
-			!lloyd();
-
-			!harry();
-
-		}
-	}
-
-	rule +$ei.event(location(int x, int y)) : ei.direction(string dir) {
-		
-		C.println("Now in location " + x + ", " + y);
-		int int_x = M.intValue(x + "");
-		int int_y = M.intValue(y + "");
-		myModule.add(int_x, int_y);
-		if (ei.square("here", "dust")) {
-			dustModule.plus();
-		}
-		ei.clean();
-		!declare(x, y);
-	}
-
-	rule +!declare(int x, int y) : ei.direction("north") {
-		C.println("facing north:");
-		int int_x = M.intValue(x + "");
-		int int_y = M.intValue(y + "");
-
-		int northForwardX = int_x;
-		int northForwardY = int_y - 1;
-		int northForward = myModule.check(northForwardX, northForwardY);
-
-		int northLeftX = int_x - 1;
-		int northLeftY = int_y;
-		int northLeft = myModule.check(northLeftX, northLeftY);
-
-		int northRightX = int_x + 1;
-		int northRightY = int_y;
-		int northRight = myModule.check(northRightX, northLeftY);
-
-		int northBackX = int_x;
-		int northBackY = int_y + 1;
-		int northBack = myModule.check(northBackX, northBackY);
-
-		int lowest = M.min(M.min(northForward, northLeft), M.min(northRight, northBack));
-
-		C.println("setting temp now");
-		if (lowest == northForward) {
-			dirModule.setTemp("forward");
-		}
-		if (lowest == northLeft) {
-			dirModule.setTemp("left");
-		}
-		if (lowest == northRight) {
-			dirModule.setTemp("right");
-		}
-		if (lowest == northBack) {
-			dirModule.setTemp("back");
+            C.println("Dust Count " + dustModule.getCount());
+			S.setMainGoal("Henry", ["Henry"]);
+			S.setMainGoal("Decco", ["Decco"]);
+			S.setMainGoal("Lloyd", ["Lloyd"]);
+			S.setMainGoal("Harry", ["Harry"]);
 		}
 
 	}
 
-	rule +!declare(int x, int y) : ei.direction("east") {
-		C.println("facing east:");
-		int int_x = M.intValue(x + "");
-		int int_y = M.intValue(y + "");
-
-		int eastForwardX = int_x + 1;
-		int eastForwardY = int_y;
-		int eastForward = myModule.check(eastForwardX, eastForwardY);
-
-		int eastLeftX = int_x;
-		int eastLeftY = int_y - 1;
-		int eastLeft = myModule.check(eastLeftX, eastLeftY);
-
-		int eastRightX = int_x;
-		int eastRightY = int_y + 1;
-		int eastRight = myModule.check(eastRightX, eastRightY);
-
-		int eastBackX = int_x - 1;
-		int eastBackY = int_y;
-		int eastBack = myModule.check(eastBackX, eastBackY);
-
-		int lowest = M.min(M.min(eastForward, eastLeft), M.min(eastRight, eastBack));
-		C.println("facing east: setting temp now");
-		if (lowest == eastForward) {
-			dirModule.setTemp("forward");
-		}
-		if (lowest == eastLeft) {
-			dirModule.setTemp("left");
-		}
-		if (lowest == eastRight) {
-			dirModule.setTemp("right");
-		}
-		if (lowest == eastBack) {
-			dirModule.setTemp("back");
-		}
-
-
-	}
-
-	rule +!declare(int x, int y) : ei.direction("south") {
-		C.println("facing south:");
-		int int_x = M.intValue(x + "");
-		int int_y = M.intValue(y + "");
-
-		int southForwardX = int_x;
-		int southForwardY = int_y + 1;
-		int southForward = myModule.check(southForwardX, southForwardY);
-
-		int southLeftX = int_x + 1;
-		int southLeftY = int_y;
-		int southLeft = myModule.check(southLeftX, southLeftY);
-
-		int southRightX = int_x - 1;
-		int southRightY = int_y;
-		int southRight = myModule.check(southRightX, southRightY);
-
-		int southBackX = int_x;
-		int southBackY = int_y - 1;
-		int southBack = myModule.check(southBackX, southBackY);
-
-		int lowest = M.min(M.min(southForward, southLeft), M.min(southRight, southBack));
-		C.println("facing south: setting temp now");
-		if (lowest == southForward) {
-			dirModule.setTemp("forward");
-		}
-		if (lowest == southLeft) {
-			dirModule.setTemp("left");
-		}
-		if (lowest == southRight) {
-			dirModule.setTemp("right");
-		}
-		if (lowest == southBack) {
-			dirModule.setTemp("back");
-		}
-
-
-
-	}
-
-	rule +!declare(int x, int y) : ei.direction("west") {
-		C.println("facing west:");
-		int int_x = M.intValue(x + "");
-		int int_y = M.intValue(y + "");
-
-		int westForwardX = int_x - 1;
-		int westForwardY = int_y;
-		int westForward = myModule.check(westForwardX, westForwardY);
-
-		int westLeftX = int_x;
-		int westLeftY = int_y + 1;
-		int westLeft = myModule.check(westLeftX, westLeftY);
-
-		int westRightX = int_x;
-		int westRightY = int_y - 1;
-		int westRight = myModule.check(westRightX, westRightY);
-
-		int westBackX = int_x + 1;
-		int westBackY = int_y;
-		int westBack = myModule.check(westBackX, westBackY);
-
-		int lowest = M.min(M.min(westForward, westLeft), M.min(westRight, westBack));
-		C.println("facing west: setting temp now");
-		if (lowest == westForward) {
-			dirModule.setTemp("forward");
-		}
-		if (lowest == westLeft) {
-			dirModule.setTemp("left");
-		}
-		if (lowest == westRight) {
-			dirModule.setTemp("right");
-		}
-		if (lowest == westBack) {
-			dirModule.setTemp("back");
-		}
-
-
-	}
-
-	rule +!henry() {
-		dirModule.setHarry();
-		string dir = dirModule.getHenry();
-		ei.link("Henry");
-		ei.move(dir, 1);
-		S.sleep(3000);
-	}
-
-	rule +!decco() {
-		dirModule.setHenry();
-		string dir = dirModule.getDecco();
-		ei.link("Decco");
-		ei.move(dir, 1);
-
-		S.sleep(3000);		
-
-	}
-
-	rule +!lloyd() {
-		dirModule.setDecco();
-		string dir = dirModule.getLloyd();
-		ei.link("Lloyd");
-		ei.move(dir, 1);
-		S.sleep(3000);		
-
-	}
-	rule +!harry() {
-		dirModule.setLloyd();
-		string dir = dirModule.getHarry();
-		ei.link("Harry");
-		ei.move(dir, 1);
-		
-		S.sleep(3000);
-	}
 
 
 }

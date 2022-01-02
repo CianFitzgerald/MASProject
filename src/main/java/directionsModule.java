@@ -9,57 +9,36 @@ public class directionsModule extends Module {
     public String dirHar = "north";
 
     @ACTION
-    public boolean setTemp (String input) {
-        tempDir = input;
+    public boolean setDir (String input, String botname) {
+        if(botname == "Henry"){
+            dirHen = input;
+        }
+        else if(botname == "Decco"){
+            dirDec = input;
+        }
+        else if(botname == "Harry"){
+            dirHar = input;
+        }
+        else{
+            dirLlo = input;
+        }
         return true;
     }
 
     @TERM
-    public String getTemp(){
-        return tempDir;
+    public String getDir (String botname) {
+        if(botname == "Henry"){
+            return dirHen;
+        }
+        else if(botname == "Decco"){
+            return dirDec;
+        }
+        else if(botname == "Harry"){
+            return dirHar;
+        }
+        else{
+            return dirLlo;
+        }
     }
 
-    @ACTION
-    public boolean setHenry () {
-        dirHen = tempDir;
-        return true;
-    }
-
-    @TERM
-    public String getHenry(){
-        return dirHen;
-    }
-
-    @ACTION
-    public boolean setDecco () {
-        dirDec = tempDir;
-        return true;
-    }
-
-    @TERM
-    public String getDecco(){
-        return dirDec;
-    }
-
-    @ACTION
-    public boolean setLloyd() {
-        dirLlo = tempDir;
-        return true;
-    }
-
-    @TERM
-    public String getLloyd(){
-        return dirLlo;
-    }
-
-    @ACTION
-    public boolean setHarry() {
-        dirHar = tempDir;
-        return true;
-    }
-
-    @TERM
-    public String getHarry(){
-        return dirHar;
-    }
 }

@@ -14,5 +14,4 @@ public class dustCountModule extends Module {
     public int getCount() {
         return count;
     }
-
 }

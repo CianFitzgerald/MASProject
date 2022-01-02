@@ -6,8 +6,8 @@ public class sortingModule extends Module {
     public String sort(int forward, int left, int right, int back) {
         int lowest = Math.min(Math.min(forward, left), Math.min(right, back));
 
-        if (lowest == forward) {
-			return "forward";
+        if (lowest == back) {
+			return "back";
 		}
 		else if (lowest == left) {
 			return "left";
@@ -16,7 +16,7 @@ public class sortingModule extends Module {
 			return "right";
 		}
 		else  {
-			return "back";
+			return "forward";
 		}
 
     }

@@ -30,19 +30,20 @@ agent Vacuum {
 
 	rule +$ei.event(location(int x, int y)) : ei.direction(string dir){
 		string botname = S.name();
-		C.println(botname+ " Now in location " + x + ", " + y);
+		C.println(botname + " is now in location " + x + ", " + y);
 
 		int int_x = M.intValue(x + "");
 		int int_y = M.intValue(y + "");
 		myModule.add(int_x, int_y);
 		if (ei.square("here", "dust")) {
 			dustModule.plus();
+            C.println("Dust Count " + dustModule.getCount());
 		}
 		!declare(x, y, botname);
 	}
 
 	rule +!declare(int x, int y, string botname) : ei.direction("north") {
-		C.println("facing north:");
+		C.println("facing north");
 		int int_x = M.intValue(x + "");
 		int int_y = M.intValue(y + "");
 
@@ -65,11 +66,10 @@ agent Vacuum {
 		string lowest = sortModule.sort(northForward, northLeft, northRight, northBack);
 		C.println("setting direction now");
 		dirModule.setDir(lowest, botname);
-
 	}
 
 	rule +!declare(int x, int y, string botname) : ei.direction("east") {
-		C.println("facing east:");
+		C.println("facing east");
 		int int_x = M.intValue(x + "");
 		int int_y = M.intValue(y + "");
 
@@ -92,12 +92,10 @@ agent Vacuum {
 		string lowest = sortModule.sort(eastForward,eastLeft,eastRight,eastBack);
 		C.println("setting direction now");
 		dirModule.setDir(lowest, botname);
-
-
 	}
 
 	rule +!declare(int x, int y, string botname) : ei.direction("south") {
-		C.println("facing south:");
+		C.println("facing south");
 		int int_x = M.intValue(x + "");
 		int int_y = M.intValue(y + "");
 
@@ -120,11 +118,10 @@ agent Vacuum {
 		string lowest = sortModule.sort(southForward, southLeft, southRight, southBack);
 		C.println("setting direction now");
 		dirModule.setDir(lowest, botname);
-
 	}
 
 	rule +!declare(int x, int y, string botname) : ei.direction("west") {
-		C.println("facing west:");
+		C.println("facing west");
 		int int_x = M.intValue(x + "");
 		int int_y = M.intValue(y + "");
 

@@ -2,7 +2,6 @@ import astra.core.Module;
 
 public class directionsModule extends Module {
 
-    public String tempDir = "north";
     public String dirHen = "north";
     public String dirDec = "north";
     public String dirLlo = "north";

@@ -15,7 +15,7 @@ agent Vacuum {
         ei.link(name); 
         string botname = S.name(); 
         C.println("My name is:" + botname); 
-        while (dustModule.getCount() <= 32) {
+        while (dustModule.getCount() <= 32){
             !move();
         }
     }
@@ -30,7 +30,7 @@ agent Vacuum {
 
 	rule +$ei.event(location(int x, int y)) : ei.direction(string dir){
 		string botname = S.name();
-		C.println("Now in location " + x + ", " + y);
+		C.println(botname+ " Now in location " + x + ", " + y);
 
 		int int_x = M.intValue(x + "");
 		int int_y = M.intValue(y + "");

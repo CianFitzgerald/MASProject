@@ -1,5 +1,3 @@
-
-
 import astra.core.Module;
 
 public class arrayModule extends Module {
@@ -12,7 +10,7 @@ public class arrayModule extends Module {
             int x = array[xcord][ycord];
             return x;
         } catch (Exception e) {
-            int x = 1000;
+            int x = 10000;
             return x;
         } 
     }

@@ -24,20 +24,20 @@ agent Vacuum {
 		string botname = S.name();
 		string dir = dirModule.getDir(botname);
 		ei.move(dir, 1);
+        ei.clean();
 		S.sleep(3000);
 	}
 
 	rule +$ei.event(location(int x, int y)) : ei.direction(string dir){
 		string botname = S.name();
 		C.println("Now in location " + x + ", " + y);
-        
+
 		int int_x = M.intValue(x + "");
 		int int_y = M.intValue(y + "");
 		myModule.add(int_x, int_y);
 		if (ei.square("here", "dust")) {
 			dustModule.plus();
 		}
-		ei.clean();
 		!declare(x, y, botname);
 	}
 

@@ -1,23 +1,24 @@
 import astra.core.Module;
 
 public class perceptGather extends Module{
-    boolean initialHenry = false;
-    boolean initialDecco = false;
-    boolean initialHarry = false;
-    boolean initialLloyd = false;
+    boolean Henry = false;
+    boolean Decco = false;
+    boolean Harry = false;
+    boolean Lloyd = false;
+
     @ACTION
     public boolean setPercept(String bot, boolean bool){
         if(bot == "Henry"){
-            initialHenry = bool;
+            Henry = bool;
         }
         else if(bot == "Decco"){
-            initialDecco = bool;
+            Decco = bool;
         }
         else if(bot == "Harry"){
-            initialHarry = bool;
+            Harry = bool;
         }
         else{
-            initialLloyd = bool;
+            Lloyd = bool;
         }
         return true;
 
@@ -25,16 +26,16 @@ public class perceptGather extends Module{
     @TERM
     public boolean getPercept(String bot){
         if(bot == "Henry"){
-            return initialHenry;
+            return Henry;
         }
         else if(bot == "Decco"){
-            return initialDecco;
+            return Decco;
         }
         else if(bot == "Harry"){
-            return initialHarry;
+            return Harry;
         }
         else{
-            return initialLloyd ;
+            return Lloyd ;
         }
 
     }

@@ -4,7 +4,7 @@ agent Vacuum {
 	module Math M;
 	module EIS ei;
     module Debug debug;
-	module arrayModule myModule;
+	module arrayModule arrayMod;
 	module sortingModule sortModule;
 	module directionsModule dirModule;
 	module dustCountModule dustModule;
@@ -13,10 +13,9 @@ agent Vacuum {
         ei.launch("vw","dependency/vacuumworld-1.2.0.jar");
         ei.join();
         ei.link(name); 
-        string botname = S.name(); 
-        C.println("My name is:" + botname); 
         while (dustModule.getCount() <= 32){
             !move();
+            S.sleep(3000);
         }
     }
 
@@ -25,126 +24,114 @@ agent Vacuum {
 		string dir = dirModule.getDir(botname);
 		ei.move(dir, 1);
         ei.clean();
-		S.sleep(3000);
 	}
 
-	rule +$ei.event(location(int x, int y)) : ei.direction(string dir){
+	rule +$ei.event(location(int x, int y)) : ei.direction(string dir) & ei.square(string square, string contents) {
 		string botname = S.name();
 		C.println(botname + " is now in location " + x + ", " + y);
-
 		int int_x = M.intValue(x + "");
 		int int_y = M.intValue(y + "");
-		myModule.add(int_x, int_y);
-		if (ei.square("here", "dust")) {
+
+        arrayMod.ObstacleCheck(dir,int_x,int_y,square,contents);
+		arrayMod.add(int_x, int_y);
+        
+		if (square == "here" & contents == "dust") {
 			dustModule.plus();
-            C.println("Dust Count " + dustModule.getCount());
 		}
-		!declare(x, y, botname);
+
+		if (dir=="north"){
+            C.println("facing north");
+
+            int northForwardX = int_x;
+            int northForwardY = int_y - 1;
+            int northForward = arrayMod.check(northForwardX, northForwardY);
+
+            int northLeftX = int_x - 1;
+            int northLeftY = int_y;
+            int northLeft = arrayMod.check(northLeftX, northLeftY);
+
+            int northRightX = int_x + 1;
+            int northRightY = int_y;
+            int northRight = arrayMod.check(northRightX, northLeftY);
+
+            int northBackX = int_x;
+            int northBackY = int_y + 1;
+            int northBack = arrayMod.check(northBackX, northBackY);
+
+            string lowest = sortModule.sort(northForward, northLeft, northRight, northBack);
+            C.println("setting direction now");
+            dirModule.setDir(lowest, botname);
+        }   
+        else if (dir == "east"){
+            C.println("facing east");
+
+            int eastForwardX = int_x + 1;
+            int eastForwardY = int_y;
+            int eastForward = arrayMod.check(eastForwardX, eastForwardY);
+
+            int eastLeftX = int_x;
+            int eastLeftY = int_y - 1;
+            int eastLeft = arrayMod.check(eastLeftX, eastLeftY);
+
+            int eastRightX = int_x;
+            int eastRightY = int_y + 1;
+            int eastRight = arrayMod.check(eastRightX, eastRightY);
+
+            int eastBackX = int_x - 1;
+            int eastBackY = int_y;
+            int eastBack = arrayMod.check(eastBackX, eastBackY);
+
+            string lowest = sortModule.sort(eastForward,eastLeft,eastRight,eastBack);
+            C.println("setting direction now");
+            dirModule.setDir(lowest, botname);
+        }
+        else if (dir == "south"){
+            C.println("facing south");
+
+            int southForwardX = int_x;
+            int southForwardY = int_y + 1;
+            int southForward = arrayMod.check(southForwardX, southForwardY);
+
+            int southLeftX = int_x + 1;
+            int southLeftY = int_y;
+            int southLeft = arrayMod.check(southLeftX, southLeftY);
+
+            int southRightX = int_x - 1;
+            int southRightY = int_y;
+            int southRight = arrayMod.check(southRightX, southRightY);
+
+            int southBackX = int_x;
+            int southBackY = int_y - 1;
+            int southBack = arrayMod.check(southBackX, southBackY);
+
+            string lowest = sortModule.sort(southForward, southLeft, southRight, southBack);
+            C.println("setting direction now");
+            dirModule.setDir(lowest, botname);
+        }
+        else {
+            C.println("facing west");
+
+            int westForwardX = int_x - 1;
+            int westForwardY = int_y;
+            int westForward = arrayMod.check(westForwardX, westForwardY);
+
+            int westLeftX = int_x;
+            int westLeftY = int_y + 1;
+            int westLeft = arrayMod.check(westLeftX, westLeftY);
+
+            int westRightX = int_x;
+            int westRightY = int_y - 1;
+            int westRight = arrayMod.check(westRightX, westRightY);
+
+            int westBackX = int_x + 1;
+            int westBackY = int_y;
+            int westBack = arrayMod.check(westBackX, westBackY);
+
+            C.println("setting direction now");
+            string lowest = sortModule.sort(westForward, westLeft, westRight, westBack);
+            dirModule.setDir(lowest, botname);
+        }
 	}
-
-	rule +!declare(int x, int y, string botname) : ei.direction("north") {
-		C.println("facing north");
-		int int_x = M.intValue(x + "");
-		int int_y = M.intValue(y + "");
-
-		int northForwardX = int_x;
-		int northForwardY = int_y - 1;
-		int northForward = myModule.check(northForwardX, northForwardY);
-
-		int northLeftX = int_x - 1;
-		int northLeftY = int_y;
-		int northLeft = myModule.check(northLeftX, northLeftY);
-
-		int northRightX = int_x + 1;
-		int northRightY = int_y;
-		int northRight = myModule.check(northRightX, northLeftY);
-
-		int northBackX = int_x;
-		int northBackY = int_y + 1;
-		int northBack = myModule.check(northBackX, northBackY);
-
-		string lowest = sortModule.sort(northForward, northLeft, northRight, northBack);
-		C.println("setting direction now");
-		dirModule.setDir(lowest, botname);
-	}
-
-	rule +!declare(int x, int y, string botname) : ei.direction("east") {
-		C.println("facing east");
-		int int_x = M.intValue(x + "");
-		int int_y = M.intValue(y + "");
-
-		int eastForwardX = int_x + 1;
-		int eastForwardY = int_y;
-		int eastForward = myModule.check(eastForwardX, eastForwardY);
-
-		int eastLeftX = int_x;
-		int eastLeftY = int_y - 1;
-		int eastLeft = myModule.check(eastLeftX, eastLeftY);
-
-		int eastRightX = int_x;
-		int eastRightY = int_y + 1;
-		int eastRight = myModule.check(eastRightX, eastRightY);
-
-		int eastBackX = int_x - 1;
-		int eastBackY = int_y;
-		int eastBack = myModule.check(eastBackX, eastBackY);
-
-		string lowest = sortModule.sort(eastForward,eastLeft,eastRight,eastBack);
-		C.println("setting direction now");
-		dirModule.setDir(lowest, botname);
-	}
-
-	rule +!declare(int x, int y, string botname) : ei.direction("south") {
-		C.println("facing south");
-		int int_x = M.intValue(x + "");
-		int int_y = M.intValue(y + "");
-
-		int southForwardX = int_x;
-		int southForwardY = int_y + 1;
-		int southForward = myModule.check(southForwardX, southForwardY);
-
-		int southLeftX = int_x + 1;
-		int southLeftY = int_y;
-		int southLeft = myModule.check(southLeftX, southLeftY);
-
-		int southRightX = int_x - 1;
-		int southRightY = int_y;
-		int southRight = myModule.check(southRightX, southRightY);
-
-		int southBackX = int_x;
-		int southBackY = int_y - 1;
-		int southBack = myModule.check(southBackX, southBackY);
-
-		string lowest = sortModule.sort(southForward, southLeft, southRight, southBack);
-		C.println("setting direction now");
-		dirModule.setDir(lowest, botname);
-	}
-
-	rule +!declare(int x, int y, string botname) : ei.direction("west") {
-		C.println("facing west");
-		int int_x = M.intValue(x + "");
-		int int_y = M.intValue(y + "");
-
-		int westForwardX = int_x - 1;
-		int westForwardY = int_y;
-		int westForward = myModule.check(westForwardX, westForwardY);
-
-		int westLeftX = int_x;
-		int westLeftY = int_y + 1;
-		int westLeft = myModule.check(westLeftX, westLeftY);
-
-		int westRightX = int_x;
-		int westRightY = int_y - 1;
-		int westRight = myModule.check(westRightX, westRightY);
-
-		int westBackX = int_x + 1;
-		int westBackY = int_y;
-		int westBack = myModule.check(westBackX, westBackY);
-
-		C.println("setting direction now");
-		string lowest = sortModule.sort(westForward, westLeft, westRight, westBack);
-		C.println("setting temp now");
-		dirModule.setDir(lowest, botname);
-	}
-
 }
+
+

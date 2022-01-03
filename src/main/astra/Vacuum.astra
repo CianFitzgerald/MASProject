@@ -8,31 +8,37 @@ agent Vacuum {
 	module sortingModule sortModule;
 	module directionsModule dirModule;
 	module dustCountModule dustModule;
+    module perceptGather percepts;
 
     rule +!main([string name]) {
         ei.launch("vw","dependency/vacuumworld-1.2.0.jar");
         ei.join();
         ei.link(name); 
         while (dustModule.getCount() <= 32){
-            !move();
-            S.sleep(3000);
+            if (percepts.getPercept(name) == false){
+                !move(name);
+                S.sleep(3000);
+                percepts.setPercept(name, true);
+            }
         }
     }
 
-	rule +!move() {
-		string botname = S.name();
-		string dir = dirModule.getDir(botname);
-		ei.move(dir, 1);
+	rule +!move(string botname) {
+        string dir = dirModule.getDir(botname);
+        ei.move(dir, 1);
         ei.clean();
 	}
 
-	rule +$ei.event(location(int x, int y)) : ei.direction(string dir) & ei.square(string square, string contents) & ei.task(string task){
+	rule +$ei.event(location(int x, int y)) : ei.direction(string dir) & ei.square(string square, string contents){
 		string botname = S.name();
-		C.println(botname + " is now in location " + x + ", " + y);
+		C.println(botname + " is now in location " + x + ", " + y +  " facing" + dir);
 		int int_x = M.intValue(x + "");
 		int int_y = M.intValue(y + "");
 
+        C.println("Checking obstacles");
         arrayMod.ObstacleCheck(dir,int_x,int_y,square,contents);
+
+        C.println("adding square to array");
 		arrayMod.add(int_x, int_y);
 
 		if (ei.square("here","dust")) {
@@ -61,6 +67,7 @@ agent Vacuum {
             string lowest = sortModule.sort(northForward, northLeft, northRight, northBack);
             C.println("setting direction now");
             dirModule.setDir(lowest, botname);
+
         }   
         else if (dir == "east"){
             C.println("facing east");
@@ -131,6 +138,7 @@ agent Vacuum {
             string lowest = sortModule.sort(westForward, westLeft, westRight, westBack);
             dirModule.setDir(lowest, botname);
         }
+        percepts.setPercept(botname, false);
 	}
 }
 

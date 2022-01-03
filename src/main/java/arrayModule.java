@@ -36,11 +36,14 @@ public class arrayModule extends Module {
         if(dir=="north"){
             if(square=="forward" & contents=="obstacle"){
                 addObstacle(xcord, ycord -1);
-            }if(square=="left" & contents=="obstacle"){
+            }
+            if(square=="left" & contents=="obstacle"){
                 addObstacle(xcord+1, ycord);
-            }if(square=="right" & contents=="obstacle"){
+            }
+            if(square=="right" & contents=="obstacle"){
                 addObstacle(xcord-1, ycord);
-            }if(square=="back" & contents=="obstacle"){
+            }
+            if(square=="back" & contents=="obstacle"){
                 addObstacle(xcord, ycord +1);
             }
         }
@@ -48,11 +51,14 @@ public class arrayModule extends Module {
         else if(dir=="south"){
             if(square=="forward" & contents=="obstacle"){
                 addObstacle(xcord, ycord +1);
-            }if(square=="left" & contents=="obstacle"){
+            }
+            if(square=="left" & contents=="obstacle"){
                 addObstacle(xcord-1, ycord);
-            }if(square=="right" & contents=="obstacle"){
+            }
+            if(square=="right" & contents=="obstacle"){
                 addObstacle(xcord+1, ycord);
-            }if(square=="back" & contents=="obstacle"){
+            }
+            if(square=="back" & contents=="obstacle"){
                 addObstacle(xcord, ycord -1);
             }
         }
@@ -60,11 +66,14 @@ public class arrayModule extends Module {
         else if (dir=="east"){
             if(square=="forward" & contents=="obstacle"){
                 addObstacle(xcord+1, ycord);
-            }if(square=="left" & contents=="obstacle"){
+            }
+            if(square=="left" & contents=="obstacle"){
                 addObstacle(xcord, ycord-1);
-            }if(square=="right" & contents=="obstacle"){
+            }
+            if(square=="right" & contents=="obstacle"){
                 addObstacle(xcord, ycord+1);
-            }if(square=="back" & contents=="obstacle"){
+            }
+            if(square=="back" & contents=="obstacle"){
                 addObstacle(xcord-1, ycord);
             }
         }
@@ -72,11 +81,14 @@ public class arrayModule extends Module {
         else{
             if(square=="forward" & contents=="obstacle"){
                 addObstacle(xcord-1, ycord);
-            }if(square=="left" & contents=="obstacle"){
+            }
+            if(square=="left" & contents=="obstacle"){
                 addObstacle(xcord, ycord+1);
-            }if(square=="right" & contents=="obstacle"){
+            }
+            if(square=="right" & contents=="obstacle"){
                 addObstacle(xcord, ycord-1);
-            }if(square=="back" & contents=="obstacle"){
+            }
+            if(square=="back" & contents=="obstacle"){
                 addObstacle(xcord+1, ycord);
             }
         }

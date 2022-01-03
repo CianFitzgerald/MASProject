@@ -3,9 +3,9 @@ import astra.core.Module;
 public class directionsModule extends Module {
 
     public String dirHen = "north";
-    public String dirDec = "north";
-    public String dirLlo = "north";
-    public String dirHar = "north";
+    public String dirDec = "south";
+    public String dirLlo = "east";
+    public String dirHar = "west";
 
     @ACTION
     public boolean setDir (String input, String botname) {

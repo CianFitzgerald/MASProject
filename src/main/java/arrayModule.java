@@ -45,7 +45,7 @@ public class arrayModule extends Module {
             }
         }
 
-        if(dir=="south"){
+        else if(dir=="south"){
             if(square=="forward" & contents=="obstacle"){
                 addObstacle(xcord, ycord +1);
             }if(square=="left" & contents=="obstacle"){
@@ -57,7 +57,7 @@ public class arrayModule extends Module {
             }
         }
 
-        if(dir=="east"){
+        else if (dir=="east"){
             if(square=="forward" & contents=="obstacle"){
                 addObstacle(xcord+1, ycord);
             }if(square=="left" & contents=="obstacle"){
@@ -69,7 +69,7 @@ public class arrayModule extends Module {
             }
         }
 
-        if(dir=="west"){
+        else{
             if(square=="forward" & contents=="obstacle"){
                 addObstacle(xcord-1, ycord);
             }if(square=="left" & contents=="obstacle"){

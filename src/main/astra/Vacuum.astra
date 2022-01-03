@@ -26,7 +26,7 @@ agent Vacuum {
         ei.clean();
 	}
 
-	rule +$ei.event(location(int x, int y)) : ei.direction(string dir) & ei.square(string square, string contents) {
+	rule +$ei.event(location(int x, int y)) : ei.direction(string dir) & ei.square(string square, string contents) & ei.task(string task){
 		string botname = S.name();
 		C.println(botname + " is now in location " + x + ", " + y);
 		int int_x = M.intValue(x + "");
@@ -34,8 +34,8 @@ agent Vacuum {
 
         arrayMod.ObstacleCheck(dir,int_x,int_y,square,contents);
 		arrayMod.add(int_x, int_y);
-        
-		if (square == "here" & contents == "dust") {
+
+		if (ei.square("here","dust")) {
 			dustModule.plus();
 		}
 

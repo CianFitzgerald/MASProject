@@ -80,7 +80,6 @@ public class arrayModule extends Module {
                 addObstacle(xcord+1, ycord);
             }
         }
-
         return true;
     }
 

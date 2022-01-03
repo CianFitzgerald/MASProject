@@ -48,10 +48,10 @@ agent Vacuum {
                 arrayMod.addObstacle(int_x, int_y -1);
             }
             if (ei.square("left","obstacle")){
-                arrayMod.addObstacle(int_x+1, int_y);
+                arrayMod.addObstacle(int_x-1, int_y);
             }
             if (ei.square("right","obstacle")){
-                arrayMod.addObstacle(int_x-1, int_y);
+                arrayMod.addObstacle(int_x+1, int_y);
             }
             if (ei.square("back","obstacle")){
                 arrayMod.addObstacle(int_x, int_y +1);
@@ -124,10 +124,10 @@ agent Vacuum {
                 arrayMod.addObstacle(int_x, int_y+1);
             }
             if (ei.square("left","obstacle")){
-                arrayMod.addObstacle(int_x-1, int_y);
+                arrayMod.addObstacle(int_x+1, int_y);
             }
             if (ei.square("right","obstacle")){
-                arrayMod.addObstacle(int_x+1, int_y);
+                arrayMod.addObstacle(int_x-1, int_y);
             }
             if (ei.square("back","obstacle")){
                 arrayMod.addObstacle(int_x, int_y-1);

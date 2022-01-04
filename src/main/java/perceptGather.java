@@ -6,6 +6,7 @@ public class perceptGather extends Module{
     boolean Decco = false;
     boolean Harry = false;
     boolean Lloyd = false;
+    
     // method which sets the boolean value for a specified bot
     @ACTION
     public boolean setPercept(String bot, boolean bool){

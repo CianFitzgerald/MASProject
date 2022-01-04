@@ -23,13 +23,13 @@ agent Vacuum {
 
             while (percepts.getPercept(name) == false){
                 !move(name);
-                S.sleep(2000);
+                S.sleep(3000);
                 percepts.setPercept(name, true);
             }
         }
     }
     
-    // move rule whcih moves the bot 1 space in the specified direction and then cleans if necessary
+    // move rule which moves the bot 1 space in the specified direction and then cleans if necessary
 
 	rule +!move(string botname) {
         //retrieving the direction from the direction module using getDir 
@@ -63,14 +63,15 @@ agent Vacuum {
 			dustModule.plus();
 		}
 
-        // checking which direction the bot is facing in order to add obstacles and decide on next direction to move.
+        // checking which direction the bot is facing in order to decide on next direction to move.
 
 		if (dir=="north"){
 
             C.println("facing north");
 
-            // retrieving coordinates of surrounding squares and checking the visit count to each using check method from array module 
+            // retrieving coordinates of surrounding squares and checking the visit count to each using the check method from the array module 
             // if the surrounding square is an obstacle or vacuum the visit count is set to 1000 such that the bot won't move to those squares
+            // otherwise if the square is empty the visit count is retrieved using the check method
 
             int northForwardX = int_x;
             int northForwardY = int_y - 1;
@@ -98,6 +99,8 @@ agent Vacuum {
             }else{
                 northRight = arrayMod.check(northRightX, northLeftY);
             }
+
+            // not possible to check the contents of square behind the bot, so just the check method is used here
             
             int northBackX = int_x;
             int northBackY = int_y + 1;
@@ -155,6 +158,7 @@ agent Vacuum {
             C.println("setting direction now: " + lowest);
             dirModule.setDir(lowest, botname);
         }
+
         // same methodology as above but for bots facing south
 
         else if (dir == "south"){
@@ -237,7 +241,7 @@ agent Vacuum {
             dirModule.setDir(lowest, botname);
         }
 
-        // setting boolean value for specified bot back to false in order to trigger next move 
+        // setting boolean value for specified bot back to false in order to trigger move rule in main
 
         percepts.setPercept(botname, false);
 	}

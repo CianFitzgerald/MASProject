@@ -1,11 +1,12 @@
 import astra.core.Module;
 
 public class perceptGather extends Module{
+    // initializing the boolean values for each bot
     boolean Henry = false;
     boolean Decco = false;
     boolean Harry = false;
     boolean Lloyd = false;
-
+    // method which sets the boolean value for a specified bot
     @ACTION
     public boolean setPercept(String bot, boolean bool){
         if(bot == "Henry"){
@@ -21,8 +22,9 @@ public class perceptGather extends Module{
             Lloyd = bool;
         }
         return true;
-
     }
+    
+    // method which gets the boolean value for a specified bot
     @TERM
     public boolean getPercept(String bot){
         if(bot == "Henry"){

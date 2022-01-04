@@ -247,6 +247,7 @@ agent Vacuum {
         // setting boolean value for specified bot back to false in order to trigger move rule in main
 
         percepts.setPercept(botname, false);
+        S.sleep(2000);
 	}
 }
 

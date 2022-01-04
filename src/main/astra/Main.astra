@@ -23,11 +23,11 @@ agent Main {
 		// setting the main goal for each of the sub-agents
 
 		S.setMainGoal("Henry", ["Henry"]);
-
+		S.sleep(2000);
 		S.setMainGoal("Decco", ["Decco"]);
-
+		S.sleep(2000);
 		S.setMainGoal("Lloyd", ["Lloyd"]);
-
+		S.sleep(2000);
 		S.setMainGoal("Harry", ["Harry"]);
 	}
 }

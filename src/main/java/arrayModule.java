@@ -2,7 +2,8 @@ import astra.core.Module;
 
 public class arrayModule extends Module {
     // initializing the 2D array of the vaccum world 
-    int[][] array = new int[16][8];
+
+    public int[][] array = new int[16][8];
 
     @TERM
     public int check(int xcord, int ycord) {

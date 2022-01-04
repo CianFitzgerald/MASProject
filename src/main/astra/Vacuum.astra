@@ -23,12 +23,11 @@ agent Vacuum {
         while (dustModule.getCount() <= 32){
 
             //while loop to ensure that the agent only triggers the move rule once the percepts have been gathered 
-
-            boolean bool = percepts.getPercept(name);
-            while (bool == false){
+            
+            while (percepts.getPercept(name) == false){
                 !move(name);
-                percepts.setPercept(name, true);
                 S.sleep(3000);
+                percepts.setPercept(name, true);
             }
         }
     }

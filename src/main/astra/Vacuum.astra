@@ -37,7 +37,7 @@ agent Vacuum {
 
 	rule +$ei.event(location(int x, int y)) : ei.direction(string dir) & ei.square(string square, string contents){
 		string botname = S.name();
-		C.println(botname + " is now in location " + x + ", " + y +  " facing" + dir);
+		C.println(botname + " is now in location " + x + ", " + y +  " facing " + dir);
 		int int_x = M.intValue(x + "");
 		int int_y = M.intValue(y + "");
 
@@ -59,8 +59,11 @@ agent Vacuum {
             if (ei.square("right","obstacle")){
                 arrayMod.addObstacle(int_x+1, int_y);
             }
-            if (ei.square("back","obstacle")){
-                arrayMod.addObstacle(int_x, int_y +1);
+            if (ei.square("forwardRight","obstacle")){
+                arrayMod.addObstacle(int_x+1, int_y-1);
+            }
+            if (ei.square("forwardLeft","obstacle")){
+                arrayMod.addObstacle(int_x-1, int_y-1);
             }
 
             C.println("facing north");
@@ -97,8 +100,11 @@ agent Vacuum {
             if (ei.square("right","obstacle")){
                 arrayMod.addObstacle(int_x, int_y+1);
             }
-            if (ei.square("back","obstacle")){
-                arrayMod.addObstacle(int_x-1, int_y);
+            if (ei.square("forwardRight","obstacle")){
+                arrayMod.addObstacle(int_x+1, int_y+1);
+            }
+            if (ei.square("forwardLeft","obstacle")){
+                arrayMod.addObstacle(int_x+1, int_y-1);
             }
 
             C.println("facing east");
@@ -136,8 +142,11 @@ agent Vacuum {
             if (ei.square("right","obstacle")){
                 arrayMod.addObstacle(int_x-1, int_y);
             }
-            if (ei.square("back","obstacle")){
-                arrayMod.addObstacle(int_x, int_y-1);
+            if (ei.square("forwardRight","obstacle")){
+                arrayMod.addObstacle(int_x-1, int_y+1);
+            }
+            if (ei.square("forwardLeft","obstacle")){
+                arrayMod.addObstacle(int_x+1, int_y+1);
             }
 
             int southForwardX = int_x;
@@ -173,8 +182,11 @@ agent Vacuum {
             if (ei.square("right","obstacle")){
                 arrayMod.addObstacle(int_x, int_y-1);
             }
-            if (ei.square("back","obstacle")){
-                arrayMod.addObstacle(int_x+1, int_y);
+            if (ei.square("forwardRight","obstacle")){
+                arrayMod.addObstacle(int_x-1, int_y+1);
+            }
+            if (ei.square("forwardLeft","obstacle")){
+                arrayMod.addObstacle(int_x-1, int_y-1);
             }
 
             int westForwardX = int_x - 1;

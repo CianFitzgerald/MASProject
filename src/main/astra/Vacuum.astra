@@ -28,27 +28,46 @@ agent Vacuum {
             }
         }
     }
+    
+    // move rule whcih moves the bot 1 space in the specified direction and then cleans if necessary
 
 	rule +!move(string botname) {
+        //retrieving the direction from the direction module using getDir 
+
         string dir = dirModule.getDir(botname);
         ei.move(dir, 1);
         ei.clean();
 	}
 
+    // Event rule which listens to the changes in the environment 
+
 	rule +$ei.event(location(int x, int y)) : ei.direction(string dir) & ei.square(string square, string contents){
+        //retieving the bots name  
+
 		string botname = S.name();
 		C.println(botname + " is now in location " + x + ", " + y +  " facing " + dir);
+
+        // converting x and y coordinates to usable integers
+
 		int int_x = M.intValue(x + "");
 		int int_y = M.intValue(y + "");
 
+        // adding 1 to the square the bot has moved to 
+
         C.println("adding square to array");
 		arrayMod.add(int_x, int_y);
+
+        // adding 1 to the dust count if the square is dusty
 
 		if (ei.square("here","dust")) {
 			dustModule.plus();
 		}
 
+        // checking which direction the bot is facing in order to add obstacles and decide on next direction to move.
+
 		if (dir=="north"){
+
+            // calling addObstacle method for any coordinates which contain an obstacle 
 
             if (ei.square("forward","obstacle")){
                 arrayMod.addObstacle(int_x, int_y -1);
@@ -68,6 +87,8 @@ agent Vacuum {
 
             C.println("facing north");
 
+            // retrieving coordinates of surrounding squares and checking the visit count to each using check method from array module 
+
             int northForwardX = int_x;
             int northForwardY = int_y - 1;
             int northForward = arrayMod.check(northForwardX, northForwardY);
@@ -84,11 +105,19 @@ agent Vacuum {
             int northBackY = int_y + 1;
             int northBack = arrayMod.check(northBackX, northBackY);
 
+            // determining which square has the lowest number of visits
+
             string lowest = sortModule.sort(northForward, northLeft, northRight, northBack);
             C.println("setting direction now: " + lowest);
+
+            //  setting the direction for the bot to move next 
+
             dirModule.setDir(lowest, botname);
 
         }   
+
+        // same methodology as above but for bots facing east 
+
         else if (dir == "east"){
 
             if (ei.square("forward","obstacle")){
@@ -129,6 +158,7 @@ agent Vacuum {
             C.println("setting direction now: " + lowest);
             dirModule.setDir(lowest, botname);
         }
+        // same methodology as above but for bots facing south
 
         else if (dir == "south"){
             C.println("facing south");
@@ -169,6 +199,7 @@ agent Vacuum {
             C.println("setting direction now: " + lowest);
             dirModule.setDir(lowest, botname);
         }
+        // same methodology as above but for bots facing west
 
         else {
             C.println("facing west");
@@ -211,6 +242,8 @@ agent Vacuum {
             dirModule.setDir(lowest, botname);
         }
 
+        // setting boolean value for specified bot back to false in order to trigger next move 
+        
         percepts.setPercept(botname, false);
 	}
 }

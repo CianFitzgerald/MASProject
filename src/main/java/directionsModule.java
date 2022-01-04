@@ -1,12 +1,12 @@
 import astra.core.Module;
 
 public class directionsModule extends Module {
-
+    // initializing the stored direction values for each bot 
     public String dirHen = "north";
     public String dirDec = "south";
     public String dirLlo = "east";
     public String dirHar = "west";
-
+    // method which sets the direction value for a specified bot
     @ACTION
     public boolean setDir (String input, String botname) {
         if(botname == "Henry"){
@@ -23,7 +23,7 @@ public class directionsModule extends Module {
         }
         return true;
     }
-
+    // method which gets the direction value for a specified bot
     @TERM
     public String getDir (String botname) {
         if(botname == "Henry"){

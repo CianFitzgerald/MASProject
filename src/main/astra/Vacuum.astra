@@ -28,7 +28,6 @@ agent Vacuum {
 
             if (bool == false){
                 !move(name);
-                S.sleep(3000);
             }
         }
     }
@@ -41,6 +40,7 @@ agent Vacuum {
         string dir = dirModule.getDir(botname);
         ei.move(dir, 1);
         ei.clean();
+        S.sleep(5000);
 	}
 
     // Event rule which listens to the changes in the environment 
@@ -49,7 +49,7 @@ agent Vacuum {
         //retieving the bots name and setting percept gathering module value to true for specified bot
 
 		string botname = S.name();
-        percepts.setPercept(botname, true);  
+        percepts.setPercept(botname, true);        
 
 		C.println(botname + " is now in location " + x + ", " + y +  " facing " + dir);
 

@@ -21,13 +21,13 @@ agent Main {
 		ei.startEnv();
 
 		// setting the main goal for each of the sub-agents
-		S.sleep(3000);
+
 		S.setMainGoal("Henry", ["Henry"]);
-		S.sleep(3000);
+
 		S.setMainGoal("Decco", ["Decco"]);
-		S.sleep(3000);
+
 		S.setMainGoal("Lloyd", ["Lloyd"]);
-		S.sleep(3000);
+
 		S.setMainGoal("Harry", ["Harry"]);
 	}
 }

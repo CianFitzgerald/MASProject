@@ -23,17 +23,5 @@ public class arrayModule extends Module {
         array[xcord][ycord] += 1;
         return true;
     }
-
-    @ACTION
-    public boolean addObstacle(int xcord, int ycord){
-    // Method which adds large value to an element in the array  
-
-        try{
-            array[xcord][ycord] += 1000;
-            return true;
-        } catch (Exception e){
-            return true;
-        }
-    }
 }
 

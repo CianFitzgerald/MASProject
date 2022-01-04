@@ -23,7 +23,7 @@ agent Vacuum {
 
             while (percepts.getPercept(name) == false){
                 !move(name);
-                S.sleep(3000);
+                S.sleep(2000);
                 percepts.setPercept(name, true);
             }
         }
@@ -67,27 +67,10 @@ agent Vacuum {
 
 		if (dir=="north"){
 
-            // calling addObstacle method for any coordinates which contain an obstacle 
-
-            if (ei.square("forward","obstacle")){
-                arrayMod.addObstacle(int_x, int_y -1);
-            }
-            if (ei.square("left","obstacle")){
-                arrayMod.addObstacle(int_x-1, int_y);
-            }
-            if (ei.square("right","obstacle")){
-                arrayMod.addObstacle(int_x+1, int_y);
-            }
-            if (ei.square("forwardRight","obstacle")){
-                arrayMod.addObstacle(int_x+1, int_y-1);
-            }
-            if (ei.square("forwardLeft","obstacle")){
-                arrayMod.addObstacle(int_x-1, int_y-1);
-            }
-
             C.println("facing north");
 
             // retrieving coordinates of surrounding squares and checking the visit count to each using check method from array module 
+            // if the surrounding square is an obstacle or vacuum the visit count is set to 1000 such that the bot won't move to those squares
 
             int northForwardX = int_x;
             int northForwardY = int_y - 1;
@@ -120,7 +103,6 @@ agent Vacuum {
             int northBackY = int_y + 1;
             int northBack = arrayMod.check(northBackX, northBackY);
 
-
             // determining which square has the lowest number of visits
 
             string lowest = sortModule.sort(northForward, northLeft, northRight, northBack);
@@ -135,22 +117,6 @@ agent Vacuum {
         // same methodology as above but for bots facing east 
 
         else if (dir == "east"){
-
-            if (ei.square("forward","obstacle")){
-                arrayMod.addObstacle(int_x+1, int_y);
-            }
-            if (ei.square("left","obstacle")){
-                arrayMod.addObstacle(int_x, int_y-1);
-            }
-            if (ei.square("right","obstacle")){
-                arrayMod.addObstacle(int_x, int_y+1);
-            }
-            if (ei.square("forwardRight","obstacle")){
-                arrayMod.addObstacle(int_x+1, int_y+1);
-            }
-            if (ei.square("forwardLeft","obstacle")){
-                arrayMod.addObstacle(int_x+1, int_y-1);
-            }
 
             C.println("facing east");
 
@@ -185,7 +151,6 @@ agent Vacuum {
             int eastBackY = int_y;
             int eastBack = arrayMod.check(eastBackX, eastBackY);
 
-            
             string lowest = sortModule.sort(eastForward,eastLeft,eastRight,eastBack);
             C.println("setting direction now: " + lowest);
             dirModule.setDir(lowest, botname);
@@ -194,22 +159,6 @@ agent Vacuum {
 
         else if (dir == "south"){
             C.println("facing south");
-
-            if (ei.square("forward","obstacle")){
-                arrayMod.addObstacle(int_x, int_y+1);
-            }
-            if (ei.square("left","obstacle")){
-                arrayMod.addObstacle(int_x+1, int_y);
-            }
-            if (ei.square("right","obstacle")){
-                arrayMod.addObstacle(int_x-1, int_y);
-            }
-            if (ei.square("forwardRight","obstacle")){
-                arrayMod.addObstacle(int_x-1, int_y+1);
-            }
-            if (ei.square("forwardLeft","obstacle")){
-                arrayMod.addObstacle(int_x+1, int_y+1);
-            }
 
             int southForwardX = int_x;
             int southForwardY = int_y + 1;
@@ -229,7 +178,6 @@ agent Vacuum {
                 southLeft = arrayMod.check(southLeftX, southLeftY);
             }
             
-
             int southRightX = int_x - 1;
             int southRightY = int_y;
             int southRight;
@@ -247,26 +195,11 @@ agent Vacuum {
             C.println("setting direction now: " + lowest);
             dirModule.setDir(lowest, botname);
         }
+
         // same methodology as above but for bots facing west
 
         else {
             C.println("facing west");
-
-            if (ei.square("forward","obstacle")){
-                arrayMod.addObstacle(int_x-1, int_y);
-            }
-            if (ei.square("left","obstacle")){
-                arrayMod.addObstacle(int_x, int_y+1);
-            }
-            if (ei.square("right","obstacle")){
-                arrayMod.addObstacle(int_x, int_y-1);
-            }
-            if (ei.square("forwardRight","obstacle")){
-                arrayMod.addObstacle(int_x-1, int_y+1);
-            }
-            if (ei.square("forwardLeft","obstacle")){
-                arrayMod.addObstacle(int_x-1, int_y-1);
-            }
 
             int westForwardX = int_x - 1;
             int westForwardY = int_y;
@@ -277,7 +210,6 @@ agent Vacuum {
                 westForward = arrayMod.check(westForwardX, westForwardY);
             }
             
-
             int westLeftX = int_x;
             int westLeftY = int_y + 1;
             int westLeft;
@@ -287,7 +219,6 @@ agent Vacuum {
                 westLeft = arrayMod.check(westLeftX, westLeftY);
             }
             
-
             int westRightX = int_x;
             int westRightY = int_y - 1;
             int westRight;

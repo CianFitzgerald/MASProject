@@ -23,7 +23,7 @@ public class perceptGather extends Module{
         }
         return true;
     }
-    
+
     // method which gets the boolean value for a specified bot
     @TERM
     public boolean getPercept(String bot){
@@ -37,7 +37,7 @@ public class perceptGather extends Module{
             return Harry;
         }
         else{
-            return Lloyd ;
+            return Lloyd;
         }
 
     }

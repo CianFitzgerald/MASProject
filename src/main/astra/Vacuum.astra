@@ -17,14 +17,18 @@ agent Vacuum {
         ei.launch("vw","dependency/vacuumworld-1.2.0.jar");
         ei.join();
         ei.link(name); 
+
+        // while loop triggered until dust is all cleaned 
+
         while (dustModule.getCount() <= 32){
 
             //while loop to ensure that the agent only triggers the move rule once the percepts have been gathered 
 
-            while (percepts.getPercept(name) == false){
+            boolean bool = percepts.getPercept(name);
+            while (bool == false){
                 !move(name);
-                S.sleep(3000);
                 percepts.setPercept(name, true);
+                S.sleep(3000);
             }
         }
     }
@@ -37,6 +41,7 @@ agent Vacuum {
         string dir = dirModule.getDir(botname);
         ei.move(dir, 1);
         ei.clean();
+
 	}
 
     // Event rule which listens to the changes in the environment 
@@ -54,12 +59,11 @@ agent Vacuum {
 
         // adding 1 to the square the bot has moved to 
 
-        C.println("adding square to array");
 		arrayMod.add(int_x, int_y);
 
         // adding 1 to the dust count if the square is dusty
 
-		if (ei.square("here","dust")) {
+		if(ei.square("here","dust")) {
 			dustModule.plus();
 		}
 

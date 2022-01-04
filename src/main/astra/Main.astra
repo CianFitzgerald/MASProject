@@ -4,7 +4,7 @@ agent Main {
 	module Math M;
 	module EIS ei;
     module Debug debug;
-	module dustCountModule dustModule;
+
 
 	rule +!main(list args) {
 		//creating the sub-agents for the bots  
@@ -23,11 +23,8 @@ agent Main {
 		// setting the main goal for each of the sub-agents
 
 		S.setMainGoal("Henry", ["Henry"]);
-		S.sleep(2000);
 		S.setMainGoal("Decco", ["Decco"]);
-		S.sleep(2000);
 		S.setMainGoal("Lloyd", ["Lloyd"]);
-		S.sleep(2000);
 		S.setMainGoal("Harry", ["Harry"]);
 	}
 }

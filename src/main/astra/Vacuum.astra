@@ -23,11 +23,12 @@ agent Vacuum {
         while (dustModule.getCount() <= 32){
 
             //while loop to ensure that the agent only triggers the move rule once the percepts have been gathered 
-            
-            while (percepts.getPercept(name) == false){
+
+            boolean bool = percepts.getPercept(name);
+
+            if (bool == false){
                 !move(name);
                 S.sleep(3000);
-                percepts.setPercept(name, true);
             }
         }
     }
@@ -40,15 +41,16 @@ agent Vacuum {
         string dir = dirModule.getDir(botname);
         ei.move(dir, 1);
         ei.clean();
-
 	}
 
     // Event rule which listens to the changes in the environment 
 
 	rule +$ei.event(location(int x, int y)) : ei.direction(string dir) & ei.square(string square, string contents){
-        //retieving the bots name  
+        //retieving the bots name and setting percept gathering module value to true for specified bot
 
 		string botname = S.name();
+        percepts.setPercept(botname, true);  
+
 		C.println(botname + " is now in location " + x + ", " + y +  " facing " + dir);
 
         // converting x and y coordinates to usable integers
@@ -247,7 +249,6 @@ agent Vacuum {
         // setting boolean value for specified bot back to false in order to trigger move rule in main
 
         percepts.setPercept(botname, false);
-        S.sleep(2000);
 	}
 }
 
